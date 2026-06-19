@@ -71,6 +71,7 @@ public class UserService {
     public String deleteUser(Long id) {
         userRepository.deleteById(id);
         redisTemplate.opsForList().remove("users::getUsers", 1, id); // if the system getting lots of requests use this way
+        redisTemplate.convertAndSend("user_list", "user deleted successfully");
         return "User deleted";
     }
 
